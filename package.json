@@ -1,0 +1,25 @@
+{
+  "name": "tars-desktop-clone",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc",
+    "copy-html": "copy src\\index.html dist\\index.html",
+    "start": "run-s build copy-html start:electron",
+    "start:electron": "electron . --enable-logging",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^31.0.2",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.5.2"
+  },
+  "dependencies": {
+    "puppeteer": "^22.12.1",
+    "xlsx": "^0.18.5"
+  }
+}
