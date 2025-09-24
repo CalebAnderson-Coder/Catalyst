@@ -1,12 +1,16 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+import * as fs from 'fs';
 import * as path from 'path';
 import puppeteer from 'puppeteer';
 import * as XLSX from 'xlsx';
 
-async function handleExtractData(event: Electron.IpcMainEvent, url: string) {
+async function handleExtractData(event: Electron.IpcMainEvent, data: { url: string; campaign: string; brand: string; campaignNumber: string; }) {
+  const { url, campaign, brand, campaignNumber } = data;
+  const defaultPath = `${brand.replace("'", "")} C${campaignNumber}.xlsx`;
+
   const { filePath } = await dialog.showSaveDialog({
     buttonLabel: 'Guardar Excel',
-    defaultPath: `catalogo-${Date.now()}.xlsx`,
+    defaultPath: defaultPath,
   });
 
   if (filePath) {
@@ -24,11 +28,7 @@ async function handleExtractData(event: Electron.IpcMainEvent, url: string) {
         if (requestUrl.includes('graphql') && request.method() === 'POST') {
           const postData = JSON.parse(request.postData() || '[]');
           if (postData[0].operationName === 'getCatalog') {
-            const urlParams = new URL(url).searchParams;
-            const nextCampaign = urlParams.get('next_campaign');
-            if (nextCampaign) {
-              postData[0].variables.campaignCode = '202514'; // This is a guess
-            }
+            postData[0].variables.campaignCode = campaign;
             request.continue({
               postData: JSON.stringify(postData),
             });
@@ -125,9 +125,98 @@ function createWindow() {
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 }
 
+async function handleDownloadImages(event: Electron.IpcMainEvent, data: { url: string; campaign: string; }) {
+  const { url, campaign } = data;
+
+  const { filePaths } = await dialog.showOpenDialog({
+    properties: ['openDirectory'],
+    buttonLabel: 'Seleccionar Carpeta',
+  });
+
+  if (filePaths && filePaths.length > 0) {
+    const saveDir = filePaths[0];
+    try {
+      dialog.showMessageBox({ title: 'Iniciando', message: 'Iniciando descarga de imágenes. Esto puede tardar varios minutos...' });
+
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+      await page.setRequestInterception(true);
+
+      let allPageImages: any[] = [];
+      let imagesFound = false;
+
+      page.on('request', (request) => {
+        if (request.url().includes('graphql') && request.method() === 'POST') {
+          const postData = JSON.parse(request.postData() || '[]');
+          if (postData[0].operationName === 'getCatalog') {
+            postData[0].variables.campaignCode = campaign;
+            request.continue({ postData: JSON.stringify(postData) });
+            return;
+          }
+        }
+        request.continue();
+      });
+
+      page.on('response', async (response) => {
+        if (response.url().includes('graphql') && response.request().method() === 'POST') {
+          try {
+            const postData = JSON.parse(response.request().postData() || '[]');
+            if (postData[0].operationName === 'getCatalog') {
+              const data = await response.json();
+              if (data[0].data?.catalog?.pages) {
+                data[0].data.catalog.pages.forEach((pageData: any) => {
+                  if (pageData.images && pageData.images.double) {
+                    allPageImages.push({
+                      imageUrl: pageData.images.double,
+                      fileName: `Pagina_${String(pageData.order).padStart(2, '0')}.jpg`,
+                    });
+                  }
+                });
+                imagesFound = true;
+              }
+            }
+          } catch (e) { /* Ignore parsing errors */ }
+        }
+      });
+
+      await page.goto(url, { waitUntil: 'networkidle2' });
+      if (!imagesFound) {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+      }
+
+      if (!imagesFound) {
+        throw new Error('No se pudo encontrar la información de las imágenes de página.');
+      }
+
+      for (let i = 0; i < allPageImages.length; i++) {
+        const pageImage = allPageImages[i];
+        try {
+          const imagePage = await browser.newPage();
+          const imageResponse = await imagePage.goto(pageImage.imageUrl);
+          if (imageResponse) {
+            const buffer = await imageResponse.buffer();
+            fs.writeFileSync(path.join(saveDir, pageImage.fileName), buffer);
+          }
+          await imagePage.close();
+        } catch (e) {
+          console.error(`No se pudo descargar ${pageImage.imageUrl}: ${e}`);
+        }
+      }
+
+      await browser.close();
+      dialog.showMessageBox({ title: 'Éxito', message: `Se descargaron ${allPageImages.length} imágenes en ${saveDir}` });
+
+    } catch (error) {
+      console.error(error);
+      dialog.showErrorBox('Error', `No se pudieron descargar las imágenes. ${error}`);
+    }
+  }
+}
+
 app.on('ready', () => {
   app.commandLine.appendSwitch('disable-gpu-shader-disk-cache');
   ipcMain.on('extract-data', handleExtractData);
+  ipcMain.on('download-images', handleDownloadImages);
   createWindow();
 });
 

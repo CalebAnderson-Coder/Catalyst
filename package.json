@@ -5,7 +5,7 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "tsc",
-    "copy-html": "copy src\\index.html dist\\index.html",
+    "copy-html": "cp src/index.html dist/index.html",
     "start": "run-s build copy-html start:electron",
     "start:electron": "electron . --enable-logging",
     "test": "echo \"Error: no test specified\" && exit 1"
