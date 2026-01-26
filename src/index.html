@@ -1,40 +1,63 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello World!</title>
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="script-src 'self' 'unsafe-inline';"
-    />
-  </head>
-  <body>
-    <h1>Extractor de Catálogos</h1>
+<html lang="es">
 
-    <p>
-      <label for="brand-select">Marca:</label>
-      <select id="brand-select">
-        <option value="lbel">L'Bel</option>
-        <option value="esika">Ésika</option>
-        <option value="cyzone">Cyzone</option>
-      </select>
-    </p>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalyst Extractor 2.0</title>
+  <link rel="stylesheet" href="./styles.css">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
+</head>
 
-    <p>
-      <label for="campaign-input">Número de Campaña (ej. 16):</label>
-      <input type="text" id="campaign-input" />
-    </p>
+<body>
+  <div class="container">
+    <header>
+      <h1>Catalyst</h1>
+    </header>
 
-    <p>
-      <button id="extract-btn">Extraer Datos a Excel</button>
-      <button id="download-btn">Descargar Imágenes</button>
-    </p>
-    <hr />
-    <p>
-      We are using Node.js <span id="node-version"></span>, Chromium
-      <span id="chrome-version"></span>, and Electron
-      <span id="electron-version"></span>.
-    </p>
-    <script src="./renderer.js"></script>
-  </body>
+    <main>
+      <div class="form-group">
+        <label for="brand-select">Marca</label>
+        <select id="brand-select">
+          <option value="" disabled selected>Selecciona una marca</option>
+          <option value="lbel">L'Bel</option>
+          <option value="esika">Ésika</option>
+          <option value="cyzone">Cyzone</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="campaign-input">Campaña (Ej. 16)</label>
+        <input type="text" id="campaign-input" placeholder="Ingresa el número..." autocomplete="off">
+      </div>
+
+      <div class="actions">
+        <button id="extract-btn" class="primary-btn">
+          <span class="loader"></span>
+          <span>Extraer Datos</span>
+        </button>
+      </div>
+
+      <div style="margin-top: 1rem;">
+        <button id="download-btn" class="secondary-btn" style="width: 100%;">
+          <span>Descargar Imágenes</span>
+        </button>
+      </div>
+
+      <div id="status-bar" class="status-bar"></div>
+    </main>
+
+    <hr>
+
+    <footer class="footer">
+      <p>Powered by Catalyst Engine</p>
+      <p style="font-size: 0.65rem; opacity: 0.7; margin-top: 0.25rem;">
+        Node <span id="node-version"></span> | Electron <span id="electron-version"></span>
+      </p>
+    </footer>
+  </div>
+
+  <script src="./renderer.js"></script>
+</body>
+
 </html>

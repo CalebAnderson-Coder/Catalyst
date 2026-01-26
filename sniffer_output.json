@@ -1,0 +1,1392 @@
+{
+  "operationName": "oAuth",
+  "variables": {
+    "type": "ECATALOG"
+  },
+  "query": "mutation oAuth($type: OauthType!) {\n  oAuth(type: $type) {\n    ... on OAuthResponse {\n      accessToken\n      tokenExpires\n    }\n  }\n}\n"
+}
+---
+{
+  "operationName": "getConsultant",
+  "variables": {
+    "applicant": false,
+    "withCountry": false,
+    "withCampaign": true,
+    "withAbTesting": false,
+    "withCatalogs": true,
+    "withBrand": true,
+    "countryCode": "CO",
+    "code": "9907565834"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "90fa82d159224cdc544a938e26c90a95603d77bba8da887fbfc8ea5902631e8e"
+    }
+  }
+}
+---
+{
+  "operationName": "getCart",
+  "variables": {
+    "replaceItem": false,
+    "uid": "",
+    "countryCode": "CO",
+    "consultantCode": "9907565834",
+    "items": []
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "329b1a559d8c916ea2a86a1f2cea1002bdfaff57086789550c46506e7f447601"
+    }
+  }
+}
+---
+{
+  "operationName": "getCampaign",
+  "variables": {
+    "withCatalogs": true,
+    "withBrand": true,
+    "withPages": false,
+    "withProductsInPage": false,
+    "withProducts": false,
+    "withCategories": false,
+    "consultantCode": "9907565834",
+    "countryCode": "CO"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "8c911eb920b04a6a56d880414762335e5ae7db5ca49c5eceeceb5f76529cddc4"
+    }
+  }
+}
+---
+{
+  "operationName": "getCategoryPages",
+  "variables": {
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "2ce9d2c330c504a56f6426846d3b468c199f847b263ceea997c026fe7e949116"
+    }
+  }
+}
+---
+OP: getCatalog
+---
+{
+  "operationName": "getSetting",
+  "variables": {
+    "key": "buildId"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "c8d8d6c3e7ccceb31092430e63d89511c316ebda8c3b08f9efdb3eea29c8cb76"
+    }
+  }
+}
+---
+{
+  "operationName": "getCountries",
+  "variables": {},
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "95952b1f3312ead13cd1b6a2d01abe9358e2e7886f3b8a071515f17700223425"
+    }
+  }
+}
+---
+{
+  "operationName": "getFlags",
+  "variables": {},
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "9a16c7eeaea44a1e0ff2887f16bf591b15e140092006b66c3671c885143fc491"
+    }
+  }
+}
+---
+{
+  "operationName": "sendConsultantSession",
+  "variables": {
+    "consultantCode": "9907565834",
+    "campaignCode": "202603",
+    "countryCode": "CO",
+    "userId": null,
+    "sessionId": "599adc13-9398-4404-8761-8ec44a1f5233_2026-01-23T18:20:33.051Z"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "7ee8cafafbd4ebf3c1df98229074a365d8b8cbb6f3a25db8755cdb18ed46dbff"
+    }
+  }
+}
+---
+{
+  "operationName": "carts",
+  "variables": {
+    "countryCode": "CO",
+    "brandCode": "E",
+    "campaignCode": "202603"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "f290ac62a54bf406a62b7b03ea3703fb094d2f4e89bd5b9bd2ad882e01429097"
+    }
+  }
+}
+---
+{
+  "operationName": "getProducts",
+  "variables": {
+    "withCountry": true,
+    "withVariants": true,
+    "withInfoProduct": false,
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "4e83f562b848236c777fe65475ae8bfeeb4b35c46ea894460416f76b833ba76d"
+    }
+  }
+}
+---
+{
+  "operationName": "getReplacement",
+  "variables": {
+    "campaignCode": "202603",
+    "countryCode": "CO",
+    "regionCode": "222230"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "58da728d93797efe68596707c5806942f436e5987bc6a278ea99f7469b640732"
+    }
+  }
+}
+---
+{
+  "operationName": "materials",
+  "variables": {
+    "brandCode": "E",
+    "campaignCode": "202603",
+    "countryCode": "CO"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "ba1a6f38067e73e62dad5463b26630d26bd04f0c064893fd10748a8a65d41c8a"
+    }
+  }
+}
+---
+{
+  "operationName": "getGroupsOfStock",
+  "variables": {
+    "campaignCode": "202603",
+    "countryCode": "CO",
+    "regionCode": "22"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "bba329f695acbdf1ec5127b30f56c9546dd41096ac210ff19048bae136b141ed"
+    }
+  }
+}
+---
+{
+  "operationName": "sendConsultantSession",
+  "variables": {
+    "consultantCode": "9907565834",
+    "campaignCode": "202603",
+    "countryCode": "CO",
+    "userId": "366007223.1769192435",
+    "sessionId": "599adc13-9398-4404-8761-8ec44a1f5233_2026-01-23T18:20:33.051Z"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "7ee8cafafbd4ebf3c1df98229074a365d8b8cbb6f3a25db8755cdb18ed46dbff"
+    }
+  }
+}
+---
+{
+  "operationName": "getFeatureFlag",
+  "variables": {
+    "featureKey": "cdCd7310MxCoSamplePilot",
+    "userId": "366007223.1769192435",
+    "customVariables": {
+      "iso": "CO",
+      "region": "22",
+      "campaign": "C03"
+    }
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "e27c791da48e8e37196acde5ad7504b12c23b43b4fe319bfc93f7c6ec9b62034"
+    }
+  }
+}
+---
+{
+  "operationName": "getSegmentation",
+  "variables": {
+    "accountId": 770308,
+    "sdkKey": "3f860e7e629d2dd4507ced4ce7cc2cfa",
+    "campaignKey": "final-launch",
+    "userId": "366007223.1769192435",
+    "options": {
+      "customVariables": {
+        "country": "CO"
+      }
+    }
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "7a2443f299694db2dab307189304e813198a20de5b6d8f57c6e4d95fd9957556"
+    }
+  }
+}
+---
+{
+  "operationName": "getConsultant",
+  "variables": {
+    "applicant": false,
+    "withCountry": false,
+    "withCampaign": true,
+    "withAbTesting": false,
+    "withCatalogs": true,
+    "withBrand": true,
+    "countryCode": "CO",
+    "code": "9907565834"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "90fa82d159224cdc544a938e26c90a95603d77bba8da887fbfc8ea5902631e8e"
+    }
+  }
+}
+---
+{
+  "operationName": "getCart",
+  "variables": {
+    "replaceItem": false,
+    "uid": "",
+    "countryCode": "CO",
+    "consultantCode": "9907565834",
+    "items": []
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "329b1a559d8c916ea2a86a1f2cea1002bdfaff57086789550c46506e7f447601"
+    }
+  }
+}
+---
+{
+  "operationName": "getCampaign",
+  "variables": {
+    "withCatalogs": true,
+    "withBrand": true,
+    "withPages": false,
+    "withProductsInPage": false,
+    "withProducts": false,
+    "withCategories": false,
+    "consultantCode": "9907565834",
+    "countryCode": "CO"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "8c911eb920b04a6a56d880414762335e5ae7db5ca49c5eceeceb5f76529cddc4"
+    }
+  }
+}
+---
+{
+  "operationName": "getCategoryPages",
+  "variables": {
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "2ce9d2c330c504a56f6426846d3b468c199f847b263ceea997c026fe7e949116"
+    }
+  }
+}
+---
+OP: getCatalog
+---
+{
+  "operationName": "getSetting",
+  "variables": {
+    "key": "buildId"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "c8d8d6c3e7ccceb31092430e63d89511c316ebda8c3b08f9efdb3eea29c8cb76"
+    }
+  }
+}
+---
+{
+  "operationName": "getCountries",
+  "variables": {},
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "95952b1f3312ead13cd1b6a2d01abe9358e2e7886f3b8a071515f17700223425"
+    }
+  }
+}
+---
+{
+  "operationName": "getFlags",
+  "variables": {},
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "9a16c7eeaea44a1e0ff2887f16bf591b15e140092006b66c3671c885143fc491"
+    }
+  }
+}
+---
+{
+  "operationName": "getSegmentation",
+  "variables": {
+    "accountId": 770308,
+    "sdkKey": "3f860e7e629d2dd4507ced4ce7cc2cfa",
+    "campaignKey": "final-launch",
+    "userId": "366007223.1769192435",
+    "options": {
+      "customVariables": {
+        "country": "CO"
+      }
+    }
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "7a2443f299694db2dab307189304e813198a20de5b6d8f57c6e4d95fd9957556"
+    }
+  }
+}
+---
+{
+  "operationName": "getFeatureFlag",
+  "variables": {
+    "featureKey": "cdCd7310MxCoSamplePilot",
+    "userId": "366007223.1769192435",
+    "customVariables": {
+      "iso": "CO",
+      "region": "22",
+      "campaign": "C03"
+    }
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "e27c791da48e8e37196acde5ad7504b12c23b43b4fe319bfc93f7c6ec9b62034"
+    }
+  }
+}
+---
+{
+  "operationName": "carts",
+  "variables": {
+    "countryCode": "CO",
+    "brandCode": "E",
+    "campaignCode": "202603"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "f290ac62a54bf406a62b7b03ea3703fb094d2f4e89bd5b9bd2ad882e01429097"
+    }
+  }
+}
+---
+{
+  "operationName": "getProducts",
+  "variables": {
+    "withCountry": true,
+    "withVariants": true,
+    "withInfoProduct": false,
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "4e83f562b848236c777fe65475ae8bfeeb4b35c46ea894460416f76b833ba76d"
+    }
+  }
+}
+---
+{
+  "operationName": "getReplacement",
+  "variables": {
+    "campaignCode": "202603",
+    "countryCode": "CO",
+    "regionCode": "222230"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "58da728d93797efe68596707c5806942f436e5987bc6a278ea99f7469b640732"
+    }
+  }
+}
+---
+{
+  "operationName": "getGroupsOfStock",
+  "variables": {
+    "campaignCode": "202603",
+    "countryCode": "CO",
+    "regionCode": "22"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "bba329f695acbdf1ec5127b30f56c9546dd41096ac210ff19048bae136b141ed"
+    }
+  }
+}
+---
+{
+  "operationName": "trackEvent",
+  "variables": {
+    "eventName": "productClickPedir",
+    "userContext": {
+      "id": "366007223.1769192435",
+      "customVariables": {
+        "iso": "CO",
+        "region": "22",
+        "campaign": "C03"
+      }
+    },
+    "eventProperties": {}
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "fe4845127d7cb39918b024b7790c9eab42e2877d8061c6d26b47a242b2465e9c"
+    }
+  }
+}
+---
+{
+  "operationName": "trackEvent",
+  "variables": {
+    "eventName": "productClickPedirCards",
+    "userContext": {
+      "id": "366007223.1769192435",
+      "customVariables": {
+        "iso": "CO",
+        "region": "22",
+        "campaign": "C03"
+      }
+    },
+    "eventProperties": {}
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "fe4845127d7cb39918b024b7790c9eab42e2877d8061c6d26b47a242b2465e9c"
+    }
+  }
+}
+---
+{
+  "operationName": "getProduct",
+  "variables": {
+    "withCountry": false,
+    "withVariants": false,
+    "onlyInfoProduct": false,
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E",
+    "cuv": "10423"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "4a336a10594af4e16a5d41ac886d5005aa36dabe52f32bd690ccb26ffd9d5554"
+    }
+  }
+}
+---
+{
+  "operationName": "getCountry",
+  "variables": {
+    "withGeoLocations": false,
+    "withBrands": true,
+    "code": "CO"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "d7321be32ea7521570f31a2756795aaadef4688deb15e98562fa7757af37e51f"
+    }
+  }
+}
+---
+{
+  "operationName": "getProductImages",
+  "variables": {
+    "sku": "200121295"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "f579cfceeee26edc8f8a2d4efa4dffce124fcbc1d71d921858c44157d8158bf4"
+    }
+  }
+}
+---
+{
+  "operationName": "getProductLinkedTactic",
+  "variables": {
+    "skipCondition": false,
+    "skipGifts": false,
+    "skipOffers": false,
+    "skipProducts": false,
+    "withVariants": true,
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E",
+    "cuv": "10423"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "530a74eda27af4dd42ba9efe9106fc1df02726f1c86d8b56036d9f6ca2ce652d"
+    }
+  }
+}
+---
+{
+  "operationName": "materials",
+  "variables": {
+    "brandCode": "E",
+    "campaignCode": "202603",
+    "countryCode": "CO"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "ba1a6f38067e73e62dad5463b26630d26bd04f0c064893fd10748a8a65d41c8a"
+    }
+  }
+}
+---
+{
+  "operationName": "oAuth",
+  "variables": {
+    "type": "ECATALOG"
+  },
+  "query": "mutation oAuth($type: OauthType!) {\n  oAuth(type: $type) {\n    ... on OAuthResponse {\n      accessToken\n      tokenExpires\n    }\n  }\n}\n"
+}
+---
+{
+  "operationName": "getConsultant",
+  "variables": {
+    "applicant": false,
+    "withCountry": false,
+    "withCampaign": true,
+    "withAbTesting": false,
+    "withCatalogs": true,
+    "withBrand": true,
+    "countryCode": "CO",
+    "code": "9907565834"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "90fa82d159224cdc544a938e26c90a95603d77bba8da887fbfc8ea5902631e8e"
+    }
+  }
+}
+---
+{
+  "operationName": "getCart",
+  "variables": {
+    "replaceItem": false,
+    "uid": "",
+    "countryCode": "CO",
+    "consultantCode": "9907565834",
+    "items": []
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "329b1a559d8c916ea2a86a1f2cea1002bdfaff57086789550c46506e7f447601"
+    }
+  }
+}
+---
+{
+  "operationName": "getCampaign",
+  "variables": {
+    "withCatalogs": true,
+    "withBrand": true,
+    "withPages": false,
+    "withProductsInPage": false,
+    "withProducts": false,
+    "withCategories": false,
+    "consultantCode": "9907565834",
+    "countryCode": "CO"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "8c911eb920b04a6a56d880414762335e5ae7db5ca49c5eceeceb5f76529cddc4"
+    }
+  }
+}
+---
+{
+  "operationName": "getCategoryPages",
+  "variables": {
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "2ce9d2c330c504a56f6426846d3b468c199f847b263ceea997c026fe7e949116"
+    }
+  }
+}
+---
+OP: getCatalog
+---
+{
+  "operationName": "getSetting",
+  "variables": {
+    "key": "buildId"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "c8d8d6c3e7ccceb31092430e63d89511c316ebda8c3b08f9efdb3eea29c8cb76"
+    }
+  }
+}
+---
+{
+  "operationName": "getCountries",
+  "variables": {},
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "95952b1f3312ead13cd1b6a2d01abe9358e2e7886f3b8a071515f17700223425"
+    }
+  }
+}
+---
+{
+  "operationName": "getFlags",
+  "variables": {},
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "9a16c7eeaea44a1e0ff2887f16bf591b15e140092006b66c3671c885143fc491"
+    }
+  }
+}
+---
+{
+  "operationName": "sendConsultantSession",
+  "variables": {
+    "consultantCode": "9907565834",
+    "campaignCode": "202603",
+    "countryCode": "CO",
+    "userId": null
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "7ee8cafafbd4ebf3c1df98229074a365d8b8cbb6f3a25db8755cdb18ed46dbff"
+    }
+  }
+}
+---
+{
+  "operationName": "carts",
+  "variables": {
+    "countryCode": "CO",
+    "brandCode": "E",
+    "campaignCode": "202603"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "f290ac62a54bf406a62b7b03ea3703fb094d2f4e89bd5b9bd2ad882e01429097"
+    }
+  }
+}
+---
+{
+  "operationName": "getProducts",
+  "variables": {
+    "withCountry": true,
+    "withVariants": true,
+    "withInfoProduct": false,
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "4e83f562b848236c777fe65475ae8bfeeb4b35c46ea894460416f76b833ba76d"
+    }
+  }
+}
+---
+{
+  "operationName": "getReplacement",
+  "variables": {
+    "campaignCode": "202603",
+    "countryCode": "CO",
+    "regionCode": "222230"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "58da728d93797efe68596707c5806942f436e5987bc6a278ea99f7469b640732"
+    }
+  }
+}
+---
+{
+  "operationName": "materials",
+  "variables": {
+    "brandCode": "E",
+    "campaignCode": "202603",
+    "countryCode": "CO"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "ba1a6f38067e73e62dad5463b26630d26bd04f0c064893fd10748a8a65d41c8a"
+    }
+  }
+}
+---
+{
+  "operationName": "getGroupsOfStock",
+  "variables": {
+    "campaignCode": "202603",
+    "countryCode": "CO",
+    "regionCode": "22"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "bba329f695acbdf1ec5127b30f56c9546dd41096ac210ff19048bae136b141ed"
+    }
+  }
+}
+---
+{
+  "operationName": "sendConsultantSession",
+  "variables": {
+    "consultantCode": "9907565834",
+    "campaignCode": "202603",
+    "countryCode": "CO",
+    "userId": "1766780636.1769192508"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "7ee8cafafbd4ebf3c1df98229074a365d8b8cbb6f3a25db8755cdb18ed46dbff"
+    }
+  }
+}
+---
+{
+  "operationName": "getFeatureFlag",
+  "variables": {
+    "featureKey": "cdCd7310MxCoSamplePilot",
+    "userId": "1766780636.1769192508",
+    "customVariables": {
+      "iso": "CO",
+      "region": "22",
+      "campaign": "C03"
+    }
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "e27c791da48e8e37196acde5ad7504b12c23b43b4fe319bfc93f7c6ec9b62034"
+    }
+  }
+}
+---
+{
+  "operationName": "getSegmentation",
+  "variables": {
+    "accountId": 770308,
+    "sdkKey": "3f860e7e629d2dd4507ced4ce7cc2cfa",
+    "campaignKey": "final-launch",
+    "userId": "1766780636.1769192508",
+    "options": {
+      "customVariables": {
+        "country": "CO"
+      }
+    }
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "7a2443f299694db2dab307189304e813198a20de5b6d8f57c6e4d95fd9957556"
+    }
+  }
+}
+---
+{
+  "operationName": "getConsultant",
+  "variables": {
+    "applicant": false,
+    "withCountry": false,
+    "withCampaign": true,
+    "withAbTesting": false,
+    "withCatalogs": true,
+    "withBrand": true,
+    "countryCode": "CO",
+    "code": "9907565834"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "90fa82d159224cdc544a938e26c90a95603d77bba8da887fbfc8ea5902631e8e"
+    }
+  }
+}
+---
+{
+  "operationName": "getCart",
+  "variables": {
+    "replaceItem": false,
+    "uid": "",
+    "countryCode": "CO",
+    "consultantCode": "9907565834",
+    "items": []
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "329b1a559d8c916ea2a86a1f2cea1002bdfaff57086789550c46506e7f447601"
+    }
+  }
+}
+---
+{
+  "operationName": "getCampaign",
+  "variables": {
+    "withCatalogs": true,
+    "withBrand": true,
+    "withPages": false,
+    "withProductsInPage": false,
+    "withProducts": false,
+    "withCategories": false,
+    "consultantCode": "9907565834",
+    "countryCode": "CO"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "8c911eb920b04a6a56d880414762335e5ae7db5ca49c5eceeceb5f76529cddc4"
+    }
+  }
+}
+---
+{
+  "operationName": "getCategoryPages",
+  "variables": {
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "2ce9d2c330c504a56f6426846d3b468c199f847b263ceea997c026fe7e949116"
+    }
+  }
+}
+---
+OP: getCatalog
+---
+{
+  "operationName": "getSetting",
+  "variables": {
+    "key": "buildId"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "c8d8d6c3e7ccceb31092430e63d89511c316ebda8c3b08f9efdb3eea29c8cb76"
+    }
+  }
+}
+---
+{
+  "operationName": "getCountries",
+  "variables": {},
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "95952b1f3312ead13cd1b6a2d01abe9358e2e7886f3b8a071515f17700223425"
+    }
+  }
+}
+---
+{
+  "operationName": "getFlags",
+  "variables": {},
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "9a16c7eeaea44a1e0ff2887f16bf591b15e140092006b66c3671c885143fc491"
+    }
+  }
+}
+---
+{
+  "operationName": "getSegmentation",
+  "variables": {
+    "accountId": 770308,
+    "sdkKey": "3f860e7e629d2dd4507ced4ce7cc2cfa",
+    "campaignKey": "final-launch",
+    "userId": "1766780636.1769192508",
+    "options": {
+      "customVariables": {
+        "country": "CO"
+      }
+    }
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "7a2443f299694db2dab307189304e813198a20de5b6d8f57c6e4d95fd9957556"
+    }
+  }
+}
+---
+{
+  "operationName": "getFeatureFlag",
+  "variables": {
+    "featureKey": "cdCd7310MxCoSamplePilot",
+    "userId": "1766780636.1769192508",
+    "customVariables": {
+      "iso": "CO",
+      "region": "22",
+      "campaign": "C03"
+    }
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "e27c791da48e8e37196acde5ad7504b12c23b43b4fe319bfc93f7c6ec9b62034"
+    }
+  }
+}
+---
+{
+  "operationName": "carts",
+  "variables": {
+    "countryCode": "CO",
+    "brandCode": "E",
+    "campaignCode": "202603"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "f290ac62a54bf406a62b7b03ea3703fb094d2f4e89bd5b9bd2ad882e01429097"
+    }
+  }
+}
+---
+{
+  "operationName": "getProducts",
+  "variables": {
+    "withCountry": true,
+    "withVariants": true,
+    "withInfoProduct": false,
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "4e83f562b848236c777fe65475ae8bfeeb4b35c46ea894460416f76b833ba76d"
+    }
+  }
+}
+---
+{
+  "operationName": "getReplacement",
+  "variables": {
+    "campaignCode": "202603",
+    "countryCode": "CO",
+    "regionCode": "222230"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "58da728d93797efe68596707c5806942f436e5987bc6a278ea99f7469b640732"
+    }
+  }
+}
+---
+{
+  "operationName": "materials",
+  "variables": {
+    "brandCode": "E",
+    "campaignCode": "202603",
+    "countryCode": "CO"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "ba1a6f38067e73e62dad5463b26630d26bd04f0c064893fd10748a8a65d41c8a"
+    }
+  }
+}
+---
+{
+  "operationName": "getGroupsOfStock",
+  "variables": {
+    "campaignCode": "202603",
+    "countryCode": "CO",
+    "regionCode": "22"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "bba329f695acbdf1ec5127b30f56c9546dd41096ac210ff19048bae136b141ed"
+    }
+  }
+}
+---
+{
+  "operationName": "trackEvent",
+  "variables": {
+    "eventName": "productClickPedir",
+    "userContext": {
+      "id": "1766780636.1769192508",
+      "customVariables": {
+        "iso": "CO",
+        "region": "22",
+        "campaign": "C03"
+      }
+    },
+    "eventProperties": {}
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "fe4845127d7cb39918b024b7790c9eab42e2877d8061c6d26b47a242b2465e9c"
+    }
+  }
+}
+---
+{
+  "operationName": "trackEvent",
+  "variables": {
+    "eventName": "productClickPedirCards",
+    "userContext": {
+      "id": "1766780636.1769192508",
+      "customVariables": {
+        "iso": "CO",
+        "region": "22",
+        "campaign": "C03"
+      }
+    },
+    "eventProperties": {}
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "fe4845127d7cb39918b024b7790c9eab42e2877d8061c6d26b47a242b2465e9c"
+    }
+  }
+}
+---
+{
+  "operationName": "getProduct",
+  "variables": {
+    "withCountry": false,
+    "withVariants": false,
+    "onlyInfoProduct": false,
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E",
+    "cuv": "07085"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "4a336a10594af4e16a5d41ac886d5005aa36dabe52f32bd690ccb26ffd9d5554"
+    }
+  }
+}
+---
+{
+  "operationName": "getCountry",
+  "variables": {
+    "withGeoLocations": false,
+    "withBrands": true,
+    "code": "CO"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "d7321be32ea7521570f31a2756795aaadef4688deb15e98562fa7757af37e51f"
+    }
+  }
+}
+---
+{
+  "operationName": "getProductImages",
+  "variables": {
+    "sku": "200119029"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "f579cfceeee26edc8f8a2d4efa4dffce124fcbc1d71d921858c44157d8158bf4"
+    }
+  }
+}
+---
+{
+  "operationName": "getProductLinkedTactic",
+  "variables": {
+    "skipCondition": false,
+    "skipGifts": false,
+    "skipOffers": false,
+    "skipProducts": false,
+    "withVariants": true,
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E",
+    "cuv": "07085"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "530a74eda27af4dd42ba9efe9106fc1df02726f1c86d8b56036d9f6ca2ce652d"
+    }
+  }
+}
+---
+{
+  "operationName": "getProduct",
+  "variables": {
+    "withCountry": false,
+    "withVariants": false,
+    "onlyInfoProduct": false,
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E",
+    "cuv": "07120"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "4a336a10594af4e16a5d41ac886d5005aa36dabe52f32bd690ccb26ffd9d5554"
+    }
+  }
+}
+---
+{
+  "operationName": "getProductImages",
+  "variables": {
+    "sku": "200119031"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "f579cfceeee26edc8f8a2d4efa4dffce124fcbc1d71d921858c44157d8158bf4"
+    }
+  }
+}
+---
+{
+  "operationName": "getProductLinkedTactic",
+  "variables": {
+    "skipCondition": false,
+    "skipGifts": false,
+    "skipOffers": false,
+    "skipProducts": false,
+    "withVariants": true,
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E",
+    "cuv": "07120"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "530a74eda27af4dd42ba9efe9106fc1df02726f1c86d8b56036d9f6ca2ce652d"
+    }
+  }
+}
+---
+{
+  "operationName": "getProduct",
+  "variables": {
+    "withCountry": false,
+    "withVariants": false,
+    "onlyInfoProduct": false,
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E",
+    "cuv": "07135"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "4a336a10594af4e16a5d41ac886d5005aa36dabe52f32bd690ccb26ffd9d5554"
+    }
+  }
+}
+---
+{
+  "operationName": "getProductImages",
+  "variables": {
+    "sku": "200119033"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "f579cfceeee26edc8f8a2d4efa4dffce124fcbc1d71d921858c44157d8158bf4"
+    }
+  }
+}
+---
+{
+  "operationName": "getProductLinkedTactic",
+  "variables": {
+    "skipCondition": false,
+    "skipGifts": false,
+    "skipOffers": false,
+    "skipProducts": false,
+    "withVariants": true,
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E",
+    "cuv": "07135"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "530a74eda27af4dd42ba9efe9106fc1df02726f1c86d8b56036d9f6ca2ce652d"
+    }
+  }
+}
+---
+{
+  "operationName": "getProduct",
+  "variables": {
+    "withCountry": false,
+    "withVariants": false,
+    "onlyInfoProduct": false,
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E",
+    "cuv": "07051"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "4a336a10594af4e16a5d41ac886d5005aa36dabe52f32bd690ccb26ffd9d5554"
+    }
+  }
+}
+---
+{
+  "operationName": "getProductImages",
+  "variables": {
+    "sku": "200119028"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "f579cfceeee26edc8f8a2d4efa4dffce124fcbc1d71d921858c44157d8158bf4"
+    }
+  }
+}
+---
+{
+  "operationName": "getProductLinkedTactic",
+  "variables": {
+    "skipCondition": false,
+    "skipGifts": false,
+    "skipOffers": false,
+    "skipProducts": false,
+    "withVariants": true,
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E",
+    "cuv": "07051"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "530a74eda27af4dd42ba9efe9106fc1df02726f1c86d8b56036d9f6ca2ce652d"
+    }
+  }
+}
+---
+{
+  "operationName": "getProduct",
+  "variables": {
+    "withCountry": false,
+    "withVariants": false,
+    "onlyInfoProduct": false,
+    "countryCode": "CO",
+    "campaignCode": "202603",
+    "brandCode": "E",
+    "cuv": "07044"
+  },
+  "extensions": {
+    "persistedQuery": {
+      "version": 1,
+      "sha256Hash": "4a336a10594af4e16a5d41ac886d5005aa36dabe52f32bd690ccb26ffd9d5554"
+    }
+  }
+}
+---
