@@ -357,9 +357,9 @@ async function handleDownloadImages(event: Electron.IpcMainEvent, data: { url: s
   }
 }
 
-// Helper to map AVON product data to Excel row format
+// Helper to map AVON/Natura product data to Excel row format
 // imagesMap is a fallback lookup: { [productSku]: ["path/Image_xxx_1.jpg", ...] }
-function mapAvonProductToRow(product: any, imagesMap: Record<string, string[]> = {}) {
+function mapDigitalCatalogueProductToRow(product: any, imagesMap: Record<string, string[]> = {}, brandName: string = 'AVON', mediaBaseUrl: string = 'https://media.latam.natura-avon.digital-catalogue.com/') {
   const price = parseFloat(product.price || '0');
   const priceTo = parseFloat(product.price_to || '0');
 
@@ -381,9 +381,8 @@ function mapAvonProductToRow(product: any, imagesMap: Record<string, string[]> =
     // Use images_grouped.json data as fallback
     const imagePaths = imagesMap[product.sku];
     if (imagePaths && imagePaths.length > 0) {
-      const baseUrl = 'https://media.latam.natura-avon.digital-catalogue.com/';
       imageUrl = imagePaths
-        .map((p: string) => baseUrl + p.replace(/\\\/\//g, '/'))
+        .map((p: string) => mediaBaseUrl + p.replace(/\\\/\//g, '/'))
         .join(', ');
     }
   }
@@ -397,15 +396,20 @@ function mapAvonProductToRow(product: any, imagesMap: Record<string, string[]> =
     'Promoción': promotion,
     'Precio': priceTo > 0 ? priceTo : price,
     'Categoría': product.category || '',
-    'Marca': 'AVON',
+    'Marca': brandName,
     'Precio Normal': price,
     'Imágenes': imageUrl,
   };
 }
 
-async function handleExtractAvonData(event: Electron.IpcMainEvent, data: { url: string; campaign: string; brand: string; campaignNumber: string; }) {
-  const { url, brand, campaignNumber } = data;
+async function handleExtractDigitalCatalogueData(event: Electron.IpcMainEvent, data: { url: string; campaign: string; brand: string; campaignNumber: string; brandCode: string; }) {
+  const { url, brand, campaignNumber, brandCode } = data;
   const defaultPath = `${brand} Ciclo ${campaignNumber}.xlsx`;
+
+  // Determine media base URL based on brand
+  const mediaBaseUrl = brandCode === 'natura'
+    ? 'https://media.latam.natura.digital-catalogue.com/'
+    : 'https://media.latam.natura-avon.digital-catalogue.com/';
 
   const { filePath } = await dialog.showSaveDialog({
     buttonLabel: 'Guardar Excel',
@@ -496,8 +500,8 @@ async function handleExtractAvonData(event: Electron.IpcMainEvent, data: { url: 
     if (productsFound && avonProducts.length > 0) {
       console.log(`>>> AVON: Processing ${avonProducts.length} products...`);
 
-      // Map AVON products to Excel format with images fallback
-      const rows = avonProducts.map(product => mapAvonProductToRow(product, imagesMap));
+      // Map products to Excel format with images fallback
+      const rows = avonProducts.map((product: any) => mapDigitalCatalogueProductToRow(product, imagesMap, brand, mediaBaseUrl));
 
       // Sort by page number
       rows.sort((a, b) => (a['Página'] || 0) - (b['Página'] || 0));
@@ -507,7 +511,7 @@ async function handleExtractAvonData(event: Electron.IpcMainEvent, data: { url: 
       // Generate Excel
       const worksheet = XLSX.utils.json_to_sheet(rows);
       const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'Catálogo AVON');
+      XLSX.utils.book_append_sheet(workbook, worksheet, `Catálogo ${brand}`);
       XLSX.writeFile(workbook, filePath);
 
       dialog.showMessageBox({ title: 'Éxito', message: `${rows.length} productos guardados en ${filePath}` });
@@ -526,8 +530,8 @@ async function handleExtractAvonData(event: Electron.IpcMainEvent, data: { url: 
 app.on('ready', () => {
   app.commandLine.appendSwitch('disable-gpu-shader-disk-cache');
   ipcMain.on('extract-data', (event, data) => {
-    if (data.brandCode === 'avon' || data.brandCode === 'avon-casa') {
-      handleExtractAvonData(event, data);
+    if (data.brandCode === 'avon' || data.brandCode === 'avon-casa' || data.brandCode === 'natura') {
+      handleExtractDigitalCatalogueData(event, data);
     } else {
       handleExtractData(event, data);
     }

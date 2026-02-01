@@ -48,13 +48,20 @@ function getFormData() {
     let url: string;
     let campaign: string;
 
-    if (brandValue === 'avon' || brandValue === 'avon-casa') {
-      // AVON and AVON CASA use the same catalog platform
+    if (brandValue === 'avon' || brandValue === 'avon-casa' || brandValue === 'natura') {
+      // AVON, AVON CASA, and Natura use the digital-catalogue platform
       campaign = `c${campaignNumber.padStart(2, '0')}_co_2026`;
-      const catalogSlug = brandValue === 'avon'
-        ? `avon-ciclo-${parseInt(campaignNumber)}`
-        : `casa-estilo-c${parseInt(campaignNumber)}`;
-      url = `https://co.natura-avon.digital-catalogue.com/co/2026/${campaignNumber.padStart(2, '0')}/revista/${catalogSlug}/view/index.html?page=1&module=plp`;
+
+      if (brandValue === 'natura') {
+        const catalogSlug = `ciclo-${parseInt(campaignNumber)}`;
+        url = `https://co.natura.digital-catalogue.com/co/2026/${campaignNumber.padStart(2, '0')}/revista/${catalogSlug}/view/index.html?page=1&module=plp`;
+      } else {
+        // AVON and AVON CASA
+        const catalogSlug = brandValue === 'avon'
+          ? `avon-ciclo-${parseInt(campaignNumber)}`
+          : `casa-estilo-c${parseInt(campaignNumber)}`;
+        url = `https://co.natura-avon.digital-catalogue.com/co/2026/${campaignNumber.padStart(2, '0')}/revista/${catalogSlug}/view/index.html?page=1&module=plp`;
+      }
     } else {
       // Belcorp brands (L'Bel, Ésika, Cyzone)
       campaign = `2026${campaignNumber}`;
