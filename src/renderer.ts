@@ -45,9 +45,23 @@ function getFormData() {
   const consultantID = 'YacomarOrtiz1';
 
   if (brandValue && campaignNumber) {
-    const campaign = `2026${campaignNumber}`;
-    const url = `https://catalogo.somosbelcorp.com/co/${consultantID}/${brandValue}/pages/1`;
-    return { url, campaign, brand: brandText, campaignNumber };
+    let url: string;
+    let campaign: string;
+
+    if (brandValue === 'avon' || brandValue === 'avon-casa') {
+      // AVON and AVON CASA use the same catalog platform
+      campaign = `c${campaignNumber.padStart(2, '0')}_co_2026`;
+      const catalogSlug = brandValue === 'avon'
+        ? `avon-ciclo-${parseInt(campaignNumber)}`
+        : `casa-estilo-c${parseInt(campaignNumber)}`;
+      url = `https://co.natura-avon.digital-catalogue.com/co/2026/${campaignNumber.padStart(2, '0')}/revista/${catalogSlug}/view/index.html?page=1&module=plp`;
+    } else {
+      // Belcorp brands (L'Bel, Ésika, Cyzone)
+      campaign = `2026${campaignNumber}`;
+      url = `https://catalogo.somosbelcorp.com/co/${consultantID}/${brandValue}/pages/1`;
+    }
+
+    return { url, campaign, brand: brandText, campaignNumber, brandCode: brandValue };
   } else {
     showStatus('⚠️ Selecciona una marca y escribe el número de campaña.', 'error');
     return null;

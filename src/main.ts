@@ -18,7 +18,7 @@ async function handleExtractData(event: Electron.IpcMainEvent, data: { url: stri
 
   if (filePath) {
     try {
-      const browser = await puppeteer.launch({ headless: false });
+      const browser = await puppeteer.launch({ headless: true });
       const page = await browser.newPage();
 
       await page.setRequestInterception(true);
@@ -357,9 +357,181 @@ async function handleDownloadImages(event: Electron.IpcMainEvent, data: { url: s
   }
 }
 
+// Helper to map AVON product data to Excel row format
+// imagesMap is a fallback lookup: { [productSku]: ["path/Image_xxx_1.jpg", ...] }
+function mapAvonProductToRow(product: any, imagesMap: Record<string, string[]> = {}) {
+  const price = parseFloat(product.price || '0');
+  const priceTo = parseFloat(product.price_to || '0');
+
+  let promotion = 'No';
+  if (priceTo > 0 && priceTo < price) {
+    promotion = 'Sí';
+    if (product.condition) {
+      promotion = `Sí (${product.condition})`;
+    }
+  }
+
+  // Get page number from publications array
+  const pageNumber = product.publications?.[0]?.page_uuid || 0;
+
+  // Build image URL: prefer external_images, fallback to imagesMap lookup
+  let imageUrl = (product.external_images || '').replace(/\\\/\//g, '/');
+
+  if (!imageUrl && product.sku && imagesMap[product.sku]) {
+    // Use images_grouped.json data as fallback
+    const imagePaths = imagesMap[product.sku];
+    if (imagePaths && imagePaths.length > 0) {
+      const baseUrl = 'https://media.latam.natura-avon.digital-catalogue.com/';
+      imageUrl = imagePaths
+        .map((p: string) => baseUrl + p.replace(/\\\/\//g, '/'))
+        .join(', ');
+    }
+  }
+
+  return {
+    'Página': pageNumber,
+    'Código': product.sku || '',
+    'Nombre': product.title || '',
+    'Tono/Variante': product.variant || '',
+    'Descripción': product.description || '',
+    'Promoción': promotion,
+    'Precio': priceTo > 0 ? priceTo : price,
+    'Categoría': product.category || '',
+    'Marca': 'AVON',
+    'Precio Normal': price,
+    'Imágenes': imageUrl,
+  };
+}
+
+async function handleExtractAvonData(event: Electron.IpcMainEvent, data: { url: string; campaign: string; brand: string; campaignNumber: string; }) {
+  const { url, brand, campaignNumber } = data;
+  const defaultPath = `${brand} Ciclo ${campaignNumber}.xlsx`;
+
+  const { filePath } = await dialog.showSaveDialog({
+    buttonLabel: 'Guardar Excel',
+    defaultPath: defaultPath,
+  });
+
+  if (!filePath) {
+    event.sender.send('extract-cancelled');
+    return;
+  }
+
+  try {
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+
+    await page.setRequestInterception(true);
+
+    let avonProducts: any[] = [];
+    let productsFound = false;
+    let imagesMap: Record<string, string[]> = {};
+
+    page.on('request', (request) => {
+      const requestUrl = request.url();
+      if (requestUrl.includes('api') || requestUrl.includes('products') || requestUrl.includes('settings')) {
+        console.log(`>>> AVON REQUEST: ${request.method()} ${requestUrl}`);
+      }
+      request.continue();
+    });
+
+    page.on('response', async (response) => {
+      const responseUrl = response.url();
+      const status = response.status();
+
+      if (responseUrl.includes('api') || responseUrl.includes('products')) {
+        console.log(`>>> AVON RESPONSE [${status}]: ${responseUrl}`);
+      }
+
+      // Capture images_grouped.json for image URL fallback
+      if (responseUrl.includes('images_grouped.json') && status === 200) {
+        try {
+          const imagesData = await response.json();
+          if (imagesData.products) {
+            imagesMap = imagesData.products;
+            console.log(`>>> AVON: Captured ${Object.keys(imagesMap).length} product images from images_grouped.json`);
+          }
+        } catch (e) {
+          console.error('Error parsing images_grouped.json:', e);
+        }
+      }
+
+      // Intercept the PLP endpoint for product data
+      if (responseUrl.includes('/api/v2/products/') && responseUrl.includes('/plp') && status === 200) {
+        try {
+          const products = await response.json();
+          if (Array.isArray(products) && products.length > 0) {
+            console.log(`>>> AVON: Captured ${products.length} products from PLP`);
+            fs.writeFileSync('avon_first_product.json', JSON.stringify(products[0], null, 2));
+            avonProducts = products;
+            productsFound = true;
+          }
+        } catch (e) {
+          console.error('Error parsing PLP response:', e);
+        }
+      }
+
+      // Alternative endpoint for products
+      if (responseUrl.includes('/products') && !productsFound && status === 200) {
+        try {
+          const responseData = await response.json();
+          if (Array.isArray(responseData) && responseData.length > 0 && responseData[0]?.sku) {
+            console.log(`>>> AVON: Found products in alternative endpoint: ${responseUrl}`);
+            avonProducts = responseData;
+            productsFound = true;
+          }
+        } catch (e) { /* ignore non-json responses */ }
+      }
+    });
+
+    console.log(`>>> AVON: Navigating to ${url}`);
+    await page.goto(url, { waitUntil: 'networkidle2' });
+
+    // Wait for products to be captured
+    if (!productsFound) {
+      console.log('>>> AVON: Waiting for product data...');
+      await new Promise(resolve => setTimeout(resolve, 8000));
+    }
+
+    if (productsFound && avonProducts.length > 0) {
+      console.log(`>>> AVON: Processing ${avonProducts.length} products...`);
+
+      // Map AVON products to Excel format with images fallback
+      const rows = avonProducts.map(product => mapAvonProductToRow(product, imagesMap));
+
+      // Sort by page number
+      rows.sort((a, b) => (a['Página'] || 0) - (b['Página'] || 0));
+
+      await browser.close();
+
+      // Generate Excel
+      const worksheet = XLSX.utils.json_to_sheet(rows);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Catálogo AVON');
+      XLSX.writeFile(workbook, filePath);
+
+      dialog.showMessageBox({ title: 'Éxito', message: `${rows.length} productos guardados en ${filePath}` });
+      event.sender.send('extract-complete');
+    } else {
+      await browser.close();
+      throw new Error('No se encontraron productos en el catálogo AVON.');
+    }
+  } catch (error: any) {
+    console.error('AVON extraction error:', error);
+    dialog.showErrorBox('Error', `No se pudieron extraer los datos de AVON: ${error.message}`);
+    event.sender.send('extract-error', error.message || 'Error desconocido');
+  }
+}
+
 app.on('ready', () => {
   app.commandLine.appendSwitch('disable-gpu-shader-disk-cache');
-  ipcMain.on('extract-data', handleExtractData);
+  ipcMain.on('extract-data', (event, data) => {
+    if (data.brandCode === 'avon' || data.brandCode === 'avon-casa') {
+      handleExtractAvonData(event, data);
+    } else {
+      handleExtractData(event, data);
+    }
+  });
   ipcMain.on('download-images', handleDownloadImages);
   createWindow();
 });
