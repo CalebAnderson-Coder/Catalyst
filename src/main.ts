@@ -18,7 +18,7 @@ async function handleExtractData(event: Electron.IpcMainEvent, data: { url: stri
 
   if (filePath) {
     try {
-      const browser = await puppeteer.launch({ headless: true });
+      const browser = await puppeteer.launch({ headless: true, pipe: true });
       const page = await browser.newPage();
 
       await page.setRequestInterception(true);
@@ -286,7 +286,7 @@ async function handleDownloadImages(event: Electron.IpcMainEvent, data: { url: s
     const saveDir = filePaths[0];
     try {
       dialog.showMessageBox({ title: 'Iniciando', message: 'Iniciando descarga de imágenes. Esto puede tardar varios minutos...' });
-      const browser = await puppeteer.launch();
+      const browser = await puppeteer.launch({ pipe: true });
       const page = await browser.newPage();
       await page.setRequestInterception(true);
 
@@ -422,7 +422,7 @@ async function handleExtractDigitalCatalogueData(event: Electron.IpcMainEvent, d
   }
 
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: true, pipe: true });
     const page = await browser.newPage();
 
     await page.setRequestInterception(true);
